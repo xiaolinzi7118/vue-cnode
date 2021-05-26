@@ -2,36 +2,38 @@
   <div id="app">
     <Header></Header>
     <div class="main">
-    <router-view name="slidebar"></router-view>
-    <router-view name="main" :key="key"></router-view>
+      <router-view name="slidebar"></router-view>
+      <router-view name="main" :key="key"></router-view>
     </div>
   </div>
 </template>
 
 <script>
 // import PostList from './components/PostList'
-import Header from './components/Header'
-export default{
-  name:'App',
-  components:{
-    Header
+import Header from "./components/Header";
+export default {
+  name: "App",
+  components: {
+    Header,
   },
-  computed:{
+  computed: {
     key() {
       //复用的时候，监测路由变化
-      return this.$route.name !== undefined? this.$route.name +new Date(): this.$route +new Date()
-    }
-  }
-}
+      return this.$route.name !== undefined
+        ? this.$route.name + new Date()
+        : this.$route + new Date();
+    },
+  },
+};
 </script>
  
 
 <style lang="scss" scoped>
-@import url('assets/style/reset.css');
-#app{
-  background-color:#e1e1e1;
+@import url("assets/style/reset.css");
+#app {
+  background-color: #e1e1e1;
 }
-.main{
+.main {
   width: 80%;
   margin: 0 auto;
 }

@@ -9,25 +9,25 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path:'/',
-    name:'root',
-    components:{
-      main:PostList
+    path: '/',
+    name: 'root',
+    components: {
+      main: PostList
     }
   },
   {
     path: '/topic/:id&author=:name',
     name: 'post_content',
-    components:{
-      main:Article,
-      slidebar:SlideBar
+    components: {
+      main: Article,
+      slidebar: SlideBar
     }
   },
   {
-    path:'/userinfo/:name',
-    name:'user_info',
-    components:{
-      main:UserInfo,
+    path: '/userinfo/:name',
+    name: 'user_info',
+    components: {
+      main: UserInfo,
     }
   }
 ]
