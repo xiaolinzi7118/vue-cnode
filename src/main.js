@@ -2,12 +2,14 @@ import Vue from 'vue'
 import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
-import store from './store'  
+import store from './store'
 import axios from 'axios'
+import { Pagination } from 'element-ui';
 
 
 Vue.config.productionTip = false
-Vue.prototype.$http=axios
+Vue.prototype.$http = axios
+Vue.component(Pagination.name, Pagination)
 
 new Vue({
   router,
@@ -39,16 +41,16 @@ Vue.filter('formatDate', function (str) {
 }
 )
 //处理显示板块的文字
-Vue.filter('tabFormatter',function (post) {
-  if(post.good == true){
+Vue.filter('tabFormatter', function (post) {
+  if (post.good == true) {
     return '精华'
-  }else if(post.top == true){
+  } else if (post.top == true) {
     return '置顶'
-  }else if(post.tab == 'ask'){
+  } else if (post.tab == 'ask') {
     return '问答'
-  }else if(post.tab == 'share'){
+  } else if (post.tab == 'share') {
     return '分享'
-  }else{
+  } else {
     return '招聘'
   }
 })

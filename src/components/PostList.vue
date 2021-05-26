@@ -20,7 +20,7 @@
           <img :src='post.author.avatar_url' alt="">
           <!-- 回复/浏览 -->
           <span>
-            <span class="reply_count">{{post.reply_count}}</span>
+            <span class="reply_count"> {{post.reply_count}}</span>
             /{{post.visit_count}}
           </span>
           <!-- 帖子的分类 -->
@@ -48,7 +48,7 @@
           </span>
         </li>
         <li>
-          <Pagination @handleList="renderList"></Pagination>
+          <NavPage @handleList="renderList"></NavPage>
         </li>
       </ul>
     </div>
@@ -56,11 +56,11 @@
 </template>
 
 <script>
-import Pagination from './Pagination'
+import NavPage from './NavPage'
 export default{
   name:'PostList',
   components:{
-    Pagination
+    NavPage
   },
   data(){
     return {
@@ -99,11 +99,8 @@ export default{
 
 
 <style lang="scss" scoped>
-  .PostList{
-    background-color: #e1e1e1;
-  }
   .posts {
-    margin-top: 10px;
+    margin-top: 20px;
   }
 
   .PostList img {

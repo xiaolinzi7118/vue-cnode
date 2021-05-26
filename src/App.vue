@@ -26,8 +26,11 @@ export default{
 </script>
  
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import url('assets/style/reset.css');
+#app{
+  background-color:#e1e1e1;
+}
 .main{
   width: 80%;
   margin: 0 auto;

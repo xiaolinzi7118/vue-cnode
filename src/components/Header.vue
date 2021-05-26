@@ -5,12 +5,10 @@
       <img src="../assets/cnodejs_light.svg">
       </router-link>
       <ul>
-      <li><a href="#">首页</a></li>
-      <li><a href="#">新手入门</a></li>
-      <li><a href="#">API</a></li>
-      <li><a href="#">关于</a></li>
-      <li><a href="#">注册</a></li>
-      <li><a href="#">登录</a></li>
+        <router-link :to="{name:'root'}">
+          <li><a href="#">首页</a></li>
+        </router-link>
+      <li><a href="https://github.com/xiaolinzi7118">关于作者</a></li>
       </ul>
     </div>
   </div>
@@ -35,7 +33,7 @@ img{
   ul{
     list-style: none;
     float: right;
-    margin: 4px;
+    margin: 4px 30px;
   }
   li{
     display: inline-block;
@@ -45,7 +43,7 @@ img{
     text-decoration: none;
     color: #ccc;
     font-size: 14px;
-    text-shadow: nonr;
+    text-shadow: none;
   }
 
 </style>
