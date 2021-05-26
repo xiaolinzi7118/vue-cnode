@@ -1,32 +1,35 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <Header></Header>
+    <div class="main">
+    <router-view name="slidebar"></router-view>
+    <router-view name="main" :key="key"></router-view>
     </div>
-    <router-view/>
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+<script>
+// import PostList from './components/PostList'
+import Header from './components/Header'
+export default{
+  name:'App',
+  components:{
+    Header
+  },
+  computed:{
+    key() {
+      //复用的时候，监测路由变化
+      return this.$route.name !== undefined? this.$route.name +new Date(): this.$route +new Date()
     }
   }
+}
+</script>
+ 
+
+<style lang="scss">
+@import url('assets/style/reset.css');
+.main{
+  width: 80%;
+  margin: 0 auto;
 }
 </style>
