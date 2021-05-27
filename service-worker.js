@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/vue-cnode/precache-manifest.ca40dcbd0ac28972094df93c3b0d8ff6.js"
+  "/vue-cnode/precache-manifest.8d0f95b7c5cf64075c46e34184bfa10a.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "cnode"});
