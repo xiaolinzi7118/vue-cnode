@@ -1,71 +1,75 @@
 <template>
   <div class="autherinfo">
-    <div class="authersummay">
-      <div class="topbar">作者</div>
-      <div class="topbarImg">
-        <router-link
-          :to="{
-            name: 'user_info',
-            params: {
-              name: userinfo.loginname,
-            },
-          }"
-        >
-          <img :src="userinfo.avatar_url" alt="" />
-        </router-link>
-        <router-link
-          :to="{
-            name: 'user_info',
-            params: {
-              name: userinfo.loginname,
-            },
-          }"
-        >
-          <span>{{ userinfo.loginname }}</span>
-        </router-link>
+    <!-- 正在加载 -->
+    <div class="loading" v-if="isLoading"></div>
+    <div v-else>
+      <div class="authersummay">
+        <div class="topbar">作者</div>
+        <div class="topbarImg">
+          <router-link
+            :to="{
+              name: 'user_info',
+              params: {
+                name: userinfo.loginname,
+              },
+            }"
+          >
+            <img :src="userinfo.avatar_url" alt="" />
+          </router-link>
+          <router-link
+            :to="{
+              name: 'user_info',
+              params: {
+                name: userinfo.loginname,
+              },
+            }"
+          >
+            <span>{{ userinfo.loginname }}</span>
+          </router-link>
+        </div>
       </div>
-    </div>
-    <div class="recent_topics">
-      <div class="topbar">作者最近主题</div>
-      <ul>
-        <li
-          v-for="list in (userinfo.recent_topics || []).slice(0, 5)"
-          :key="list.id"
-        >
-          <router-link
-            :to="{
-              name: 'post_content',
-              params: {
-                id: list.id,
-                name: list.author.loginname,
-              },
-            }"
+      <div class="recent_topics">
+        <div class="topbar">作者最近主题</div>
+        <ul>
+          <li
+            v-for="list in (userinfo.recent_topics || []).slice(0, 5)"
+            :key="list.id"
           >
-            {{ list.title }}
-          </router-link>
-        </li>
-      </ul>
-    </div>
-    <div class="recent_replies">
-      <div class="topbar">作者最近回复</div>
-      <ul>
-        <li
-          v-for="list in (userinfo.recent_replies || []).slice(0, 5)"
-          :key="list.id"
-        >
-          <router-link
-            :to="{
-              name: 'post_content',
-              params: {
-                id: list.id,
-                name: list.author.loginname,
-              },
-            }"
+            <router-link
+              :to="{
+                name: 'post_content',
+                params: {
+                  id: list.id,
+                  name: list.author.loginname,
+                },
+              }"
+            >
+              {{ list.title }}
+            </router-link>
+          </li>
+        </ul>
+      </div>
+      <div class="recent_replies">
+        <div class="topbar">作者最近回复</div>
+        <ul>
+          <li
+            v-for="list in (userinfo.recent_replies || []).slice(0, 5)"
+            :key="list.id"
           >
-            {{ list.title }}
-          </router-link>
-        </li>
-      </ul>
+            <router-link
+              :to="{
+                name: 'post_content',
+                params: {
+                  id: list.id,
+                  name: list.author.loginname,
+                },
+              }"
+            >
+              {{ list.title }}
+            </router-link>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>

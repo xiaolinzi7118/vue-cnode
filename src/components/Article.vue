@@ -169,6 +169,7 @@ export default {
 .loading {
   text-align: center;
   padding-top: 300px;
+  margin: 0 auto;
 }
 
 .replyUp a:nth-of-type(2) {
