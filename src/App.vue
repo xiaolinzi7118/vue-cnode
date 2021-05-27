@@ -2,7 +2,6 @@
   <div id="app">
     <Header></Header>
     <div class="main">
-      <router-view name="slidebar"></router-view>
       <router-view name="main" :key="key"></router-view>
     </div>
   </div>
@@ -34,7 +33,7 @@ export default {
   background-color: #e1e1e1;
 }
 .main {
-  width: 80%;
-  margin: 0 auto;
+  width: 90%;
+  margin: 20px auto;
 }
 </style>

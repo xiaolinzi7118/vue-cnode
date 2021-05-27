@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Article from '../components/Article.vue'
 import PostList from '../components/PostList'
 import UserInfo from '../components/UserInfo.vue'
-import SlideBar from "../components/SlideBar.vue"
+import SlideBar from '../components/SlideBar'
 
 Vue.use(VueRouter)
 

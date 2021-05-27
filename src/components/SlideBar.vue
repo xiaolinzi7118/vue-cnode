@@ -2,21 +2,36 @@
   <div class="autherinfo">
     <div class="authersummay">
       <div class="topbar">作者</div>
-      <router-link
-        :to="{
-          name: 'user_info',
-          params: {
-            name: userinfo.loginname,
-          },
-        }"
-      >
-        <img :src="userinfo.avatar_url" alt="" />
-      </router-link>
+      <div class="topbarImg">
+        <router-link
+          :to="{
+            name: 'user_info',
+            params: {
+              name: userinfo.loginname,
+            },
+          }"
+        >
+          <img :src="userinfo.avatar_url" alt="" />
+        </router-link>
+        <router-link
+          :to="{
+            name: 'user_info',
+            params: {
+              name: userinfo.loginname,
+            },
+          }"
+        >
+          <span>{{ userinfo.loginname }}</span>
+        </router-link>
+      </div>
     </div>
     <div class="recent_topics">
       <div class="topbar">作者最近主题</div>
       <ul>
-        <li v-for="list in topicLimitby5" :key="list.id">
+        <li
+          v-for="list in (userinfo.recent_topics || []).slice(0, 5)"
+          :key="list.id"
+        >
           <router-link
             :to="{
               name: 'post_content',
@@ -34,7 +49,10 @@
     <div class="recent_replies">
       <div class="topbar">作者最近回复</div>
       <ul>
-        <li v-for="list in replyLimitby5" :key="list.id">
+        <li
+          v-for="list in (userinfo.recent_replies || []).slice(0, 5)"
+          :key="list.id"
+        >
           <router-link
             :to="{
               name: 'post_content',
@@ -58,42 +76,19 @@
 <script>
 export default {
   name: "SlideBar",
-  data() {
-    return {
-      isLoading: false,
-      userinfo: {},
-    };
-  },
-  methods: {
-    getData() {
-      this.$http
-        .get(`https://cnodejs.org/api/v1/user/${this.$route.params.name}`)
-        .then((res) => {
-          this.isLoading = false;
-          this.userinfo = res.data.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+  props: {
+    userinfo: {
+      type: Object,
+      default() {
+        return {};
+      },
     },
-  },
-  computed: {
-    topicLimitby5() {
-      if (this.userinfo.recent_topics) {
-        return this.userinfo.recent_topics.slice(0, 5);
-      }
-      return [];
+    isLoading: {
+      type: Boolean,
+      default() {
+        return false;
+      },
     },
-    replyLimitby5() {
-      if (this.userinfo.recent_replies) {
-        return this.userinfo.recent_replies.slice(0, 5);
-      }
-      return [];
-    },
-  },
-  beforeMount() {
-    this.isLoading = true; //加载成功之前显示加载动画
-    this.getData(); //在页面加载之前获取数据
   },
 };
 </script>
@@ -115,8 +110,8 @@ export default {
 }
 .autherinfo {
   width: 328px;
-  float: right;
-  margin-top: 0;
+  display: flex;
+  flex-flow: column;
 }
 li {
   padding: 3px 0;
@@ -138,9 +133,16 @@ ul a {
 .topbar {
   padding: 10px;
   background-color: #f6f6f6;
-  height: 16px;
+  height: 32px;
+  line-height: 16px;
   font-size: 12px;
   margin-top: 10px;
+}
+
+.topbarImg {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
 }
 
 img {
@@ -148,6 +150,14 @@ img {
   width: 48px;
   border-radius: 3px;
   margin: 10px;
+}
+span {
+  display: inline-block;
+  height: 48px;
+  line-height: 68px;
+  font-size: 16px;
+  color: #666;
+  text-decoration: none;
 }
 
 .loginname {
@@ -161,9 +171,5 @@ img {
 .loginname a {
   text-decoration: none;
   color: #778087;
-}
-
-.authersummay .topbar {
-  margin-top: 0px;
 }
 </style>

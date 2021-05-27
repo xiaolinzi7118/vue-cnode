@@ -1,67 +1,77 @@
 <template>
-  <div>
-    <!-- 正在加载 -->
-    <div class="loading" v-if="isLoading">
-      <img src="../assets/loading.gif" />
-    </div>
-    <div c v-else>
-      <div class="topic_header">
-        <div class="topic_title">{{ post.title }}</div>
-        <ul>
-          <li>•发布于：{{ post.create_at | formatDate }}</li>
-          <li>•作者：{{ post.author.loginname }}</li>
-          <li>• {{ post.visit_count }}次浏览</li>
-          <li>•来自{{ post | tabFormatter }}</li>
-        </ul>
-        <div v-html="post.content" class="topic_content"></div>
+  <div class="wrapper">
+    <div class="article">
+      <!-- 正在加载 -->
+      <div class="loading" v-if="isLoading">
+        <img src="../assets/loading.gif" />
       </div>
-      <div id="reply">
-        <div class="topbar">回复</div>
-        <div
-          class="replySec"
-          v-for="(reply, index) in post.replies"
-          :key="reply.id"
-        >
-          <div class="replyUp">
-            <router-link
-              :to="{
-                name: 'user_info',
-                params: {
-                  name: reply.author.loginname,
-                },
-              }"
-            >
-              <img :src="reply.author.avatar_url" />
-            </router-link>
-            <router-link
-              :to="{
-                name: 'user_info',
-                params: {
-                  name: reply.author.loginname,
-                },
-              }"
-            >
-              <span>{{ reply.author.loginname }}</span>
-            </router-link>
-            <span> {{ index + 1 }}楼 </span>
-            <span v-if="reply.ups.length > 0"> ☝ {{ reply.ups.length }} </span>
-            <span v-else></span>
+      <div v-else>
+        <div class="topic_header">
+          <div class="topic_title">{{ post.title }}</div>
+          <ul>
+            <li>•发布于：{{ post.create_at | formatDate }}</li>
+            <li>•作者：{{ post.author.loginname }}</li>
+            <li>• {{ post.visit_count }}次浏览</li>
+            <li>•来自{{ post | tabFormatter }}</li>
+          </ul>
+          <div v-html="post.content" class="topic_content"></div>
+        </div>
+        <div id="reply">
+          <div class="topbar">回复</div>
+          <div
+            class="replySec"
+            v-for="(reply, index) in post.replies"
+            :key="reply.id"
+          >
+            <div class="replyUp">
+              <router-link
+                :to="{
+                  name: 'user_info',
+                  params: {
+                    name: reply.author.loginname,
+                  },
+                }"
+              >
+                <img :src="reply.author.avatar_url" />
+              </router-link>
+              <router-link
+                :to="{
+                  name: 'user_info',
+                  params: {
+                    name: reply.author.loginname,
+                  },
+                }"
+              >
+                <span>{{ reply.author.loginname }}</span>
+              </router-link>
+              <span> {{ index + 1 }}楼 </span>
+              <span v-if="reply.ups.length > 0">
+                ☝ {{ reply.ups.length }}
+              </span>
+              <span v-else></span>
+            </div>
+            <div v-html="reply.content"></div>
           </div>
-          <div v-html="reply.content"></div>
         </div>
       </div>
     </div>
+    <SlideBar :userinfo="userinfo" :isLoading="isLoading"></SlideBar>
   </div>
 </template>
 
 <script>
+import SlideBar from "./SlideBar";
 export default {
   name: "Article",
   data() {
     return {
       isLoading: false,
       post: {},
+      userinfo: {},
     };
+  },
+  components: {
+    SlideBar,
   },
   methods: {
     getArticleData() {
@@ -77,10 +87,22 @@ export default {
           console.log(err);
         });
     },
+    getUserData() {
+      this.$http
+        .get(`https://cnodejs.org/api/v1/user/${this.$route.params.name}`)
+        .then((res) => {
+          this.isLoading = false;
+          this.userinfo = res.data.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
   beforeMount() {
     this.isLoading = true;
     this.getArticleData();
+    this.getUserData();
   },
 };
 </script>
@@ -91,10 +113,22 @@ export default {
 
 <style lang='scss'>
 @import url("../assets/style/markdown-github.css");
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.article {
+  margin-right: 20px;
+  width: 75%;
+  display: flex;
+}
 .topbar {
-  padding: 10px;
+  padding: 6px 10px;
   background-color: #f6f6f6;
-  height: 16px;
+  height: 36px;
+  line-height: 18px;
   font-size: 12px;
   margin-top: 10px;
 }
@@ -118,6 +152,7 @@ export default {
   height: 30px;
   position: relative;
   bottom: -9px;
+  margin-right: 5px;
 }
 
 #reply a,
@@ -170,5 +205,8 @@ export default {
 
 .markdown-text img {
   width: 92% !important;
+}
+.markdown-text p {
+  padding: 10px 3px;
 }
 </style>

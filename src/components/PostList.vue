@@ -141,10 +141,6 @@ export default {
 
 
 <style lang="scss" scoped>
-.posts {
-  margin-top: 20px;
-}
-
 .PostList img {
   height: 30px;
   width: 30px;
