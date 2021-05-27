@@ -8,11 +8,14 @@
       <ul>
         <li>
           <div class="toobar">
-            <span>全部</span>
-            <span>精华</span>
-            <span>分享</span>
-            <span>问答</span>
-            <span>招聘</span>
+            <span
+              v-for="(tab, index) in tabs"
+              :key="index"
+              @click="changeToobar(tab)"
+              :class="{ currentTab: type === tab.name }"
+            >
+              {{ tab.value }}
+            </span>
           </div>
         </li>
         <li v-for="post in posts" :key="post.id">
@@ -71,19 +74,43 @@ export default {
   },
   data() {
     return {
+      tabs: [
+        {
+          name: "all",
+          value: "全部",
+        },
+        {
+          name: "good",
+          value: "精华",
+        },
+        {
+          name: "share",
+          value: "分享",
+        },
+        {
+          name: "ask",
+          value: "问答",
+        },
+        {
+          name: "job",
+          value: "招聘",
+        },
+      ],
       isLoading: false,
       posts: [],
       postpage: 1,
       initRes: [],
+      type: "all",
     };
   },
   methods: {
-    getData() {
+    getData(tab) {
       this.$http
         .get("https://cnodejs.org/api/v1/topics", {
           params: {
             page: this.postpage,
             limit: 20,
+            tab,
           },
         })
         .then((res) => {
@@ -97,7 +124,12 @@ export default {
     },
     renderList(value) {
       this.postpage = value;
-      this.getData();
+      this.getData(this.type);
+    },
+    changeToobar(tab) {
+      const _tab = tab.name || "all";
+      this.getData(_tab);
+      this.type = _tab;
     },
   },
   beforeMount() {
@@ -211,6 +243,11 @@ li span {
 
 .toobar span:hover {
   color: #9e78c0;
+}
+
+.toobar .currentTab {
+  background-color: #80bd01;
+  color: white;
 }
 
 a {
